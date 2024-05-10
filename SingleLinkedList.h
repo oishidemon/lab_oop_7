@@ -1,6 +1,6 @@
 //
 // Created by Admin on 10.05.2024.
-//
+
 
 #ifndef S_D_LINKED_LISTS_SINGLELINKEDLIST_H
 #define S_D_LINKED_LISTS_SINGLELINKEDLIST_H
