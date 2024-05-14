@@ -9,12 +9,13 @@
 using namespace std;
 namespace double_node{
     template <typename T>
-    struct NodeDouble{
+    struct Node{
         T data;
-        shared_ptr<NodeDouble> next;
-        weak_ptr<NodeDouble> previous;
+        shared_ptr<Node> next;
+        weak_ptr<Node> previous;
 
-        NodeDouble(T value) : data(value) {};
+        Node(T value) : data(value) {};
     };
 }
+
 #endif //S_D_LINKED_LISTS_DOUBLENODE_H

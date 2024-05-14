@@ -41,3 +41,5 @@ void Stack<T>::push(T data) {
 }
 
 #endif //S_D_LINKED_LISTS_STACK_H
+
+//

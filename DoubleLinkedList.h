@@ -6,24 +6,26 @@
 #define S_D_LINKED_LISTS_DOUBLELINKEDLIST_H
 #include "DoubleNode.h"
 #include <iostream>
+#include "DoubleNode.h"
+#include <iostream>
 using namespace std;
 using namespace double_node;
 
 template <typename T>
 class DoubleLinkedList {
 private:
-    shared_ptr<NodeDouble<T>> head;
-    shared_ptr<NodeDouble<T>> tail;
+    shared_ptr<Node<T>> head;
+    shared_ptr<Node<T>> tail;
     int size;
 public:
     DoubleLinkedList() : head{nullptr},tail{nullptr}, size{0} {};
 
-    void insertAtBegin(T data);
-    void insertAtEnd(T data);
-    void deleteFromEnd();
-    void deleteFromBegin();
+    void unshift(T data);
+    void push(T data);
+    void pop();
+    void shift();
 
-    void at(int index);
+    T at(int index);
     void atInsert(int index,T data);
     void atRemove(int index);
     bool isEmpty();
@@ -33,7 +35,7 @@ public:
 
 template<typename T>
 bool DoubleLinkedList<T>::search(T data) {
-    shared_ptr<NodeDouble<T>> current = head;
+    shared_ptr<Node<T>> current = head;
     while (current) {
         if (current->data == data) {
             return true;
@@ -54,14 +56,14 @@ bool DoubleLinkedList<T>::isEmpty() {
 template<typename T>
 void DoubleLinkedList<T>::atRemove(int index) {
     if(index == 0){
-        deleteFromBegin();
+        shift();
         return;
     }
     if(index == size){
-        deleteFromEnd();
+        pop();
         return;
     }
-    shared_ptr<double_node::NodeDouble<T>> current = head;
+    shared_ptr<double_node::Node<T>> current = head;
     for (int i = 0; i < index; i++) {
         current = current->next;
     }
@@ -73,15 +75,15 @@ void DoubleLinkedList<T>::atRemove(int index) {
 template<typename T>
 void DoubleLinkedList<T>::atInsert(int index, T data) {
     if(index == 0){
-        insertAtBegin(data);
+        unshift(data);
         return;
     }
     if(index == size){
-        insertAtEnd(data);
+        push(data);
         return;
     }
-    shared_ptr<NodeDouble<T>> current = head;
-    shared_ptr<NodeDouble<T>> newNode = make_shared<NodeDouble<T>>(data);
+    shared_ptr<Node<T>> current = head;
+    shared_ptr<Node<T>> newNode = make_shared<Node<T>>(data);
     for(int i = 0; i < index;i++){
         current = current->next;
     }
@@ -93,20 +95,31 @@ void DoubleLinkedList<T>::atInsert(int index, T data) {
 }
 
 template<typename T>
-void DoubleLinkedList<T>::at(int index) {
+T DoubleLinkedList<T>::at(int index) {
+
+    if(index == -1){
+        if(!tail){
+            return 404;
+        }else{
+            return tail->data;
+        }
+    }
+
     if(index<0||index>=size){
         throw out_of_range("Index out of range");
     }
-    shared_ptr<NodeDouble<T>> current = head;
+
+
+    shared_ptr<Node<T>> current = head;
     for(int i = 0; i < index;i++){
         current = current->next;
     }
-    cout<<"At index "<<index<<": "<<current->data<<endl;
+    return current->data;
 
 }
 
 template<typename T>
-void DoubleLinkedList<T>::deleteFromBegin() {
+void DoubleLinkedList<T>::shift() {
     if(!head){
         return;
     }
@@ -120,7 +133,7 @@ void DoubleLinkedList<T>::deleteFromBegin() {
 }
 
 template<typename T>
-void DoubleLinkedList<T>::deleteFromEnd() {
+void DoubleLinkedList<T>::pop() {
     if(!tail){
         return;
     }
@@ -135,7 +148,7 @@ void DoubleLinkedList<T>::deleteFromEnd() {
 
 template<typename T>
 void DoubleLinkedList<T>::show() {
-    shared_ptr<NodeDouble<T>> current = head;
+    shared_ptr<Node<T>> current = head;
     while (current){
         cout<<current->data<<" ";
         current = current->next;
@@ -144,8 +157,8 @@ void DoubleLinkedList<T>::show() {
 }
 
 template<typename T>
-void DoubleLinkedList<T>::insertAtEnd(T data) {
-    shared_ptr<NodeDouble<T>> newNode = make_shared<NodeDouble<T>>(data);
+void DoubleLinkedList<T>::push(T data) {
+    shared_ptr<Node<T>> newNode = make_shared<Node<T>>(data);
     if(!tail){
         head=tail=newNode;
     } else{
@@ -157,8 +170,8 @@ void DoubleLinkedList<T>::insertAtEnd(T data) {
 }
 
 template<typename T>
-void DoubleLinkedList<T>::insertAtBegin(T data) {
-    shared_ptr<NodeDouble<T>> newNode = make_shared<NodeDouble<T>>(data);
+void DoubleLinkedList<T>::unshift(T data) {
+    shared_ptr<Node<T>> newNode = make_shared<Node<T>>(data);
     if(!head){
         head=tail=newNode;
     }else{
